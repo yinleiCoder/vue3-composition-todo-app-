@@ -10,10 +10,11 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
 import TodoAdd from './components/TodoAdd.vue'
 import TodoFilter from './components/TodoFilter.vue'
 import TodoList from './components/TodoList.vue'
+import useTodos from '@/composables/useTodos.js'
+import useFilteredTodos from '@/composables/useFilteredTodos.js'
 
 export default {
   name: 'App',
@@ -23,19 +24,9 @@ export default {
     TodoList
   },
   setup() {
-    const todos = ref([]);
-    const addTodo = (todo) => todos.value.push(todo);
-    const filter = ref('all');
-    const filteredTodos = computed(() => {
-      switch(filter.value) {
-        case 'done':
-          return todos.value.filter((todo) => todo.completed);
-        case 'todo':
-          return todos.value.filter((todo) => !todo.completed);
-          default:
-            return todos.value;
-      }
-    })
+    const { todos,addTodo } = useTodos();
+    const { filter,filteredTodos } = useFilteredTodos(todos);
+    
     return {
       todos,
       addTodo,

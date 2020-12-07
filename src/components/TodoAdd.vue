@@ -17,15 +17,36 @@ import { ref } from 'vue'
 export default {
     name: 'TodoAdd',
     setup(props, context) {
+        // const todoContent = ref("");
+
+        // const emitAddTodo = () => {
+        //     const todo = {
+        //         id: props.tid,
+        //         content: todoContent.value,
+        //         completed: false,
+        //     };
+        //     context.emit('add-todo', todo);
+        //     todoContent.value = "";
+        // };
+
+        // return {
+        //     todoContent,
+        //     emitAddTodo,
+        // };
+        return useEmitAddTodo(props.tid, context.emit);
+    },
+}
+
+function useEmitAddTodo(tid, emit) {
         const todoContent = ref("");
 
         const emitAddTodo = () => {
             const todo = {
-                id: props.tid,
+                id: tid,
                 content: todoContent.value,
                 completed: false,
             };
-            context.emit('add-todo', todo);
+            emit('add-todo', todo);
             todoContent.value = "";
         };
 
@@ -33,7 +54,6 @@ export default {
             todoContent,
             emitAddTodo,
         };
-    },
 }
 </script>
 
