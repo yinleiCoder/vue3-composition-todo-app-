@@ -1,14 +1,29 @@
 <template>
     <div class="filters">
-        <span class="filter active">All</span>
-        <span class="filter">Undone</span>
-        <span class="filter">Done</span>
+        <span 
+            v-for="filter in filters" 
+            :key="filter.value" 
+            class="filter"
+            :class="{ active: selected == filter.value}"
+            @click="$emit('change-filter', filter.value)"
+            >{{ filter.label }}</span>
     </div>
 </template>
 
 <script>
 export default {
     name: 'TodoFilter',
+    props: ['selected'],
+    setup() {
+        const filters = [
+            {label: 'All', value: 'all'},
+            {label: 'Done', value: 'done'},
+            {label: 'Undone', value: 'todo'},
+        ];
+        return {
+            filters
+        }
+    },
 }
 </script>
 
@@ -23,6 +38,7 @@ export default {
 .filters .filter{
     margin-right: 14px;
     transition: .8s;
+    cursor: pointer;
 }
 .filters .filter.active{
     color: #6b729c;
